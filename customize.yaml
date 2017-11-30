@@ -1,0 +1,54 @@
+binary_sensor.downstairs_thermostat_fan:
+  hidden: true
+binary_sensor.downstairs_thermostat_has_leaf:
+  hidden: true
+sensor.downstairs_thermostat_hvac_state:
+  hidden: true
+binary_sensor.downstairs_thermostat_is_locked:
+  hidden: true
+binary_sensor.downstairs_thermostat_is_using_emergency_heat:
+  hidden: true
+sensor.yr_symbol:
+  friendly_name: Weather
+sensor.tradfri_remote_control:
+  hidden: true
+sensor.tradfri_wireless_dimmer:
+  hidden: true
+binary_sensor.downstairs_thermostat_online:
+  hidden: true
+sensor.downstairs_thermostat_humidity:
+  friendly_name: Humidity
+sensor.downstairs_thermostat_temperature:
+  friendly_name: Temperature
+sensor.downstairs_thermostat_target:
+  friendly_name: Thermostat
+sensor.downstairs_thermostat_operation_mode:
+  friendly_name: Thermostat
+light.arilux_lc01_rgb_led_controller_0stateoffbrightness255white_value0colorr0g0b0:
+  hidden: true
+
+### Expose scripts to Alexa  ###
+script.alexa_lights_toggle:
+  hidden: false
+  emulated_hue_hidden: false
+  emulated_hue_name : 'lights'
+group.Livingroom_Lights:
+  hidden: false
+  emulated_hue_hidden: false
+  emulated_hue_name : 'livingroom lights'
+light.couch:
+  emulated_hue_hidden: false
+  emulated_hue_name : 'couch'
+light.window:
+  emulated_hue_hidden: false
+  emulated_hue_name : 'window'
+light.dining:
+  emulated_hue_hidden: false
+  emulated_hue_name : 'dining'
+light.kitchen_lights:
+  emulated_hue_hidden: false
+  emulated_hue_name : 'kitchen lights'
+light.kitchen_strip_light:
+  emulated_hue_hidden: false
+  emulated_hue_name : 'kitchen strip'
+### Hide scripts from Alexa  ###

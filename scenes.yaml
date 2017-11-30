@@ -1,0 +1,40 @@
+- name: Watching_TV
+  entities:
+    light.dining:
+      state: on
+      brightness: 150
+      rgb_color:
+      - 239
+      - 210
+      - 117
+      transition: 3
+    light.window:
+      state: on
+      brightness: 150
+      rgb_color:
+      - 239
+      - 210
+      - 117
+      transition: 3
+    light.couch:
+      state: on
+      brightness: 1
+      rgb_color:
+      - 239
+      - 210
+      - 117
+      transition: 3
+- name: colour_test_cool
+  entities:
+    light.couch:
+      state: on
+      brightness: 150
+      kelvin: 4000
+      transition: 3
+- name: colour_test_warm
+  entities:
+    light.couch:
+      state: on
+      brightness: 150
+      kelvin: 1667
+      transition: 3

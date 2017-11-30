@@ -1,0 +1,274 @@
+#### BEGIN   Scripts to expose to Alexa   ####
+alexa_lights_toggle:
+  alias: Alexa Lights Toggle Script
+  sequence:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.alexa_toggle_call
+  - service: input_boolean.toggle
+    data:
+      entity_id: input_boolean.alexa_lights_toggle
+
+#### END   Scripts to expose to Alexa   ####
+
+lights_off:
+  alias: Instant Lights Off
+  sequence:
+  - data:
+      entity_id: group.all_lights
+    service: light.turn_off
+tv_lights:
+  alias: TV Lights
+  sequence:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.lights_on_override
+  - service: light.turn_on
+    data:
+      kelvin: 2200
+      transition: 4
+      brightness: '1'
+      entity_id: light.couch
+  - service: light.turn_on
+    data:
+      kelvin: 2400
+      transition: 4
+      brightness: '140'
+      entity_id: light.window
+  - service: light.turn_on
+    data:
+      transition: 4
+      brightness: '0'
+      entity_id: light.dining
+  - delay:
+      seconds: 2
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.lights_on_override
+evening_lights:
+  alias: Evenings lights
+  sequence:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.lights_on_override
+  - service: light.turn_on
+    data:
+      kelvin: 2400
+      transition: 4
+      brightness: '120'
+      entity_id: group.Livingroom_Lights
+  - delay:
+      seconds: 2
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.lights_on_override
+teatime_lights:
+  alias: tea time lights
+  sequence:
+  - service: light.turn_on
+    data:
+      kelvin: 2500
+      transition: 4
+      brightness: '125'
+      entity_id: group.Livingroom_Lights
+breakfast_lights:
+  alias: breakfast lights
+  sequence:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.lights_on_override
+    - service: light.turn_on
+      data:
+        kelvin: 2650
+        brightness: 80
+        transition: 20
+        entity_id: light.dining
+    - delay:
+        milliseconds: 250
+    - service: light.turn_on
+      data:
+        kelvin: 2650
+        brightness: 80
+        transition: 20
+        entity_id: light.couch
+    - delay:
+        milliseconds: 250
+    - service: light.turn_on
+      data:
+        kelvin: 2650
+        brightness: 80
+        transition: 20
+        entity_id: light.window
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,0,0]
+        brightness: 0
+    - delay:
+        milliseconds: 150
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,20, 100]
+        brightness: 120
+        transition: 30
+    - delay:
+        seconds: 2
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.lights_on_override
+kitchen_led_turn_on:
+  alias: 'Turn on Kitchen LED'
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,0,0]
+        brightness: 0
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,20, 100]
+        brightness: 255
+        transition: 30
+slow_fade_off_kitchen:
+  alias: 'Turn off Kitchen LED'
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,1,1]
+        transition: 4
+    - delay:
+        seconds: 5
+    - service: light.turn_off
+      data:
+        entity_id: light.kitchen_strip_light
+slow_fade_off_couch:
+  alias: 'slow fade off couch light'
+  sequence:
+    - service: light.turn_on
+      data:
+        brightness: 1
+        transition: 5
+        entity_id: light.couch
+    - delay:
+        seconds: 6
+    - service: light.turn_off
+      data:
+        entity_id: light.couch
+slow_fade_off_dining:
+  alias: 'slow fade off dining light'
+  sequence:
+    - service: light.turn_on
+      data:
+        brightness: 1
+        transition: 4
+        entity_id: light.dining
+    - delay:
+        seconds: 5
+    - service: light.turn_off
+      data:
+        entity_id: light.dining
+slow_fade_off_window:
+  alias: 'slow fade off window light'
+  sequence:
+    - service: light.turn_on
+      data:
+        brightness: 1
+        transition: 4
+        entity_id: light.window
+    - delay:
+        seconds: 5
+    - service: light.turn_off
+      data:
+        entity_id: light.window
+kitchen_led_breakfast:
+  alias: 'Kitchen LED breakfast scene'
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,0,0]
+        brightness: 0
+    - delay:
+        seconds: 1
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0,20, 100]
+        brightness: 120
+        transition: 30
+slow_fade_off_downstairs:
+  alias: 'Slow fade off lights'
+  sequence:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.lights_on_override
+    - service: light.turn_off
+      entity_id: light.kitchen_lights
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.light.kitchen_strip_light.state == "on") %}
+            script.slow_fade_off_kitchen
+          {% endif %}
+    - delay:
+        seconds: 1
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.light.dining.state == "on") %}
+            script.slow_fade_off_dining
+          {% endif %}
+    - delay:
+        seconds: 1
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.light.window.state == "on") %}
+            script.slow_fade_off_window
+          {% endif %}
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.light.couch.state == "on") %}
+            script.slow_fade_off_couch
+          {% endif %}
+    - delay:
+        seconds: 2
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.lights_on_override
+dummy_script:
+  alias: 'dummy'        
+  sequence:
+    - service: input_boolean.toggle
+      data:
+        entity_id: input_boolean.dummy_boolean      
+
+alexa_boolean_reset:
+  alias: 'boolean reset'
+  sequence:
+    - service_template: >
+        {% if (states.light.couch.state == "on") %}
+          input_boolean.turn_on
+        {% elif (states.light.window.state == "on") %}
+          input_boolean.turn_on
+        {% elif (states.light.dining.state == "on") %}
+          input_boolean.turn_on
+        {% elif (states.light.kitchen_strip_light.state == "on") %}
+          input_boolean.turn_on
+        {% elif (states.light.kitchen_lights.state == "on") %}
+          input_boolean.turn_on
+        {% else %}
+          input_boolean.turn_off
+        {% endif %}
+      data:
+        entity_id: input_boolean.alexa_lights_toggle
+    - service: automation.turn_on
+      data:
+        entity_id: automation.alexa_lights_automation_off
+    - service: automation.turn_on
+      data:
+        entity_id: automation.alexa_lights_automation_on

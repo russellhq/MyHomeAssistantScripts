@@ -1,0 +1,7 @@
+Livingroom_Lights:
+    name: Livingroom Lights
+    view: yes
+    entities:
+      - light.couch
+      - light.dining
+      - light.window

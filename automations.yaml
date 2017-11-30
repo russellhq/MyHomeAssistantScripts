@@ -1,0 +1,144 @@
+#AUTOMATIONS
+- alias: 'Alexa Lights Automation On'
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: input_boolean.alexa_lights_toggle
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.alexa_toggle_call
+    state: 'on'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_toggle_call
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.sensor.time.state < "06:50") and (states.sensor.time.state > "06:00") %}
+            script.breakfast_lights
+          {% else %}
+            script.teatime_lights
+          {% endif %}
+- alias: 'Alexa Lights Automation Off'
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: input_boolean.alexa_lights_toggle
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: input_boolean.alexa_toggle_call
+    state: 'on'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_toggle_call
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if (states.sensor.time.state < "06:50") or (states.sensor.time.state > "22:00") %}
+            script.slow_fade_off_downstairs
+          {% else %}
+            script.lights_off
+          {% endif %}
+- alias: 'Dining brightness reset'
+  trigger:
+    platform: state
+    entity_id: light.dining
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.dining
+        brightness: 100
+        transition: 1.1
+- alias: 'Window brightness reset'
+  trigger:
+    platform: state
+    entity_id: light.window
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.window
+        brightness: 100
+        transition: 1.1
+- alias: 'Couch brightness reset'
+  trigger:
+    platform: state
+    entity_id: light.couch
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 100
+        transition: 1.1
+- alias: 'Kitchen LED brightness reset'
+  trigger:
+    platform: state
+    entity_id: light.kitchen_strip_light
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_strip_light
+        rgb_color: [0, 150, 150]
+        transition: 1.1
+- alias: 'Livingroom Lights on reset boolean'
+  trigger:
+    platform: state
+    entity_id: group.Livingroom_Lights
+    from: 'off'
+    to: 'on'
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.alexa_lights_toggle
+- alias: 'Livingroom Lights off reset boolean'
+  trigger:
+    platform: state
+    entity_id: group.Livingroom_Lights
+    from: 'on'
+    to: 'off'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_lights_toggle
+- alias: 'All lights on reset boolean'
+  trigger:
+    platform: state
+    entity_id: group.all_lights
+    from: 'off'
+    to: 'on'
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.alexa_lights_toggle
+- alias: 'All lights off reset boolean'
+  trigger:
+    platform: state
+    entity_id: group.all_lights
+    from: 'on'
+    to: 'off'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_lights_toggle
+#
+- alias: 'Reset alexa boolean on start up'
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.alexa_boolean_reset
