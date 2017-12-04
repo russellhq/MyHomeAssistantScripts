@@ -272,3 +272,18 @@ alexa_boolean_reset:
     - service: automation.turn_on
       data:
         entity_id: automation.alexa_lights_automation_on
+goodnight:
+  alias: 'Say good night'
+  sequence:
+    - service: tts.google_say
+      data_template:
+        entity_id: media_player.tts_bluetooth_speaker
+        message: >-
+          {{ [
+          "Good night. " ,
+          "Good evening. " ,
+          "Sweet dreams. " ,
+          "See you tomorrow. " ,
+          "Have a wonderful night. " ,
+          "See you soon. " 
+          ] |random }}

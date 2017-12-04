@@ -142,3 +142,25 @@
     - service: script.turn_on
       data:
         entity_id: script.alexa_boolean_reset
+- alias: 'Heating turned on'
+  trigger:
+    platform: state
+    entity_id: sensor.downstairs_thermostat_hvac_state
+    from: 'off'
+    to: 'heating'
+  action:
+    - service: tts.google_say
+      data:
+        entity_id: media_player.tts_bluetooth_speaker
+        message: 'The heating has turned on'
+- alias: 'Heating turned off'
+  trigger:
+    platform: state
+    entity_id: sensor.downstairs_thermostat_hvac_state
+    from: 'heating'
+    to: 'off'
+  action:
+    - service: tts.google_say
+      data:
+        entity_id: media_player.tts_bluetooth_speaker
+        message: 'The heating has turned off'

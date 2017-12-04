@@ -5,3 +5,9 @@ Livingroom_Lights:
       - light.couch
       - light.dining
       - light.window
+Am_I_Home:
+    name: Am I home?
+    view: yes
+    entities:
+      - sensor.downstairs_thermostat_operation_mode
+      - group.all_lights

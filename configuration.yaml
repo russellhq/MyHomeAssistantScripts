@@ -22,7 +22,7 @@ homeassistant:
 
 # Enables the frontend
 frontend:
-#  javascript_version: latest
+  javascript_version: latest
 
 # Enables configuration UI
 config:
@@ -92,7 +92,18 @@ sensor:
 #media players
 media_player:
   - platform: plex
-  
+#Enable chromecast devices
+#  - platform: cast
+#    host: '192.168.1.68'
+#  - platform: vlc
+#    name: speaker_1
+#    arguments: '--aout=pulse'
+  - platform: tts_bluetooth_speaker
+    address: 34:D2:70:1E:FE:CE.a2dp_sink
+    volume: 1
+    cache_dir: /home/homeassistant/.homeassistant/tts/
+#    pre_silence_duration: 1       # Optional - No. of seconds silence before the TTS (default is 0)
+#    post_silence_duration: 0.5    # Optional - No. of seconds silence after the TTS (default is 0)  
 # Text to speech
 tts:
   - platform: google
